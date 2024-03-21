@@ -14,22 +14,37 @@ const Carousel = () => {
     fetchingShows();
   }, []);
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentShowIndex((prevIndex) => (prevIndex + 1) % shows.length);
-    }, 4000); // Change image every 3 seconds
+  const nextShow = () => {
+    setCurrentShowIndex((prevIndex) => (prevIndex + 1) % shows.length);
+  };
 
-    return () => clearInterval(timer); // Clean up on component unmount
-  }, [shows]);
+  const prevShow = () => {
+    setCurrentShowIndex((prevIndex) => (prevIndex - 1 + shows.length) % shows.length);
+  };
 
   if (shows.length === 0) {
     return <div>Loading...</div>; // Or some other loading state
   }
 
   return (
-    <div>
-      <img src={shows[currentShowIndex].image} alt={shows[currentShowIndex].title} id="para1" />
-      <p>{shows[currentShowIndex].title}</p>
+    <div className="carousel-container">
+      <div className="flex-item item-01">
+        <img src={shows[currentShowIndex].image} alt={shows[currentShowIndex].title} className="carousel-img" />
+      </div>
+      <div className="flex-item item-02">
+        <h1>Recommended Shows</h1>
+        <br></br>
+        <h2>{shows[currentShowIndex].title}</h2>
+        <br></br>
+        <button onClick={nextShow} className="carousel-button">
+          Next
+        </button>
+        <button className="carousel-button">View Show</button>
+
+        <button onClick={prevShow} className="carousel-button">
+          Previous
+        </button>
+      </div>
     </div>
   );
 };
