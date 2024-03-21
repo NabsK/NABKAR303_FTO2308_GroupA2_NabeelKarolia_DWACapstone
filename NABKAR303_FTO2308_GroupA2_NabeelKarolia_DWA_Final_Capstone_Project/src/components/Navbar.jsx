@@ -8,7 +8,7 @@ export default function Navbar() {
       </a>
       <SearchBar />
       <div className="dropdown">
-        <button className="dropbtn">Account</button>
+        <button className="dropButton">Account</button>
         <div className="dropdown-content">
           <a href="#">Sign In</a>
           <a href="#">Favorites</a>
