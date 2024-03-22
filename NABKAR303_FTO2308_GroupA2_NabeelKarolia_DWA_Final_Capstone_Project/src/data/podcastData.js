@@ -11,7 +11,7 @@ export const fetchShowData = async (itemId) => {
   }
 };
 
-export const fetchShows = async () => {
+export const fetchPreviewData = async () => {
   try {
     const response = await fetch("https://podcast-api.netlify.app/shows");
     if (!response.ok) {

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { fetchShows } from "../data/podcastData.js";
+import { fetchPreviewData } from "../data/podcastData.js";
 
 const Carousel = () => {
   const [shows, setShows] = useState([]);
@@ -7,7 +7,7 @@ const Carousel = () => {
 
   useEffect(() => {
     const fetchingShows = async () => {
-      const data = await fetchShows();
+      const data = await fetchPreviewData();
       setShows(data);
     };
 
@@ -23,7 +23,7 @@ const Carousel = () => {
   };
 
   if (shows.length === 0) {
-    return <div>Loading...</div>; // Or some other loading state
+    return <div>Loading...</div>;
   }
 
   return (
