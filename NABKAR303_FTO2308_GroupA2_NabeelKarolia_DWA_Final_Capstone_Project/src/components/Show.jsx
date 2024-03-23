@@ -20,11 +20,13 @@ const Show = ({ id }) => {
   }
 
   return (
-    <div>
-      <img src={show.image} alt={show.title} />
-      <h2>{show.title}</h2>
-      <p>{show.description}</p>
-      <Season id={id} />
+    <div className="show-container">
+      <img className="show-image" src={show.image} alt={show.title} />
+      <h2 className="show-title">{show.title}</h2>
+      <p className="show-description">{show.description}</p>
+      <div className="season-container">
+        <Season id={id} />
+      </div>
     </div>
   );
 };
