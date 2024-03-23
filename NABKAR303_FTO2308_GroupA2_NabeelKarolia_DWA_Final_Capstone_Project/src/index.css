@@ -159,3 +159,19 @@ body {
   background-color: #000000;
   color: aqua;
 }
+
+/* Genres buttons */
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.button {
+  flex: 1 0 auto;
+  margin: 10px;
+  padding: 10px;
+  box-sizing: border-box;
+  text-align: center;
+  border-radius: 20px;
+}
