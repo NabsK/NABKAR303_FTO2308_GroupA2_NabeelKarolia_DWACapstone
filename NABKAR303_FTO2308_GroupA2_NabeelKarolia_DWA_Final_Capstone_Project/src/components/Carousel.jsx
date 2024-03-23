@@ -36,13 +36,14 @@ const Carousel = () => {
         <br></br>
         <h2>{shows[currentShowIndex].title}</h2>
         <br></br>
-        <button onClick={nextShow} className="carousel-button">
-          Next
-        </button>
-        <button className="carousel-button">View Show</button>
-
         <button onClick={prevShow} className="carousel-button">
           Previous
+        </button>
+
+        <button className="carousel-button">View Show</button>
+
+        <button onClick={nextShow} className="carousel-button">
+          Next
         </button>
       </div>
     </div>
