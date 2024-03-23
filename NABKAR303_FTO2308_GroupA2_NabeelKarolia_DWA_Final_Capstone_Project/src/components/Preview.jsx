@@ -1,9 +1,22 @@
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { fetchPreviewData } from "../data/podcastData.js";
+import Show from "./Show";
 
 const Preview = ({ selectedGenre }) => {
+  const genreMapping = {
+    1: "Personal Growth",
+    2: "True Crime and Investigative Journalism",
+    3: "History",
+    4: "Comedy",
+    5: "Entertainment",
+    6: "Business",
+    7: "Fiction",
+    8: "News",
+    9: "Kids and Family",
+  };
   const [shows, setShows] = useState([]);
+  const [selectedShowId, setSelectedShowId] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -29,6 +42,10 @@ const Preview = ({ selectedGenre }) => {
   // If selectedGenre is null, display all shows. Otherwise, filter by genre.
   const filteredShows = selectedGenre === null ? shows : shows.filter((show) => show.genres.includes(selectedGenre));
 
+  if (selectedShowId) {
+    return <Show id={selectedShowId} />;
+  }
+
   return (
     <div className="preview-container">
       {filteredShows.map((show, index) => (
@@ -37,9 +54,11 @@ const Preview = ({ selectedGenre }) => {
           <div className="preview-content">
             <h2>{show.title}</h2>
             <p>Seasons: {show.seasons}</p>
-            <p>Genres: {show.genres.join(", ")}</p>
+            <p>Genres: {show.genres.map((genreId) => genreMapping[genreId]).join(", ")}</p>
             <p>Last Updated: {formatUpdatedDate(show.updated)}</p>
-            <button className="preview-button">Visit Show</button>
+            <button className="preview-button" onClick={() => setSelectedShowId(show.id)}>
+              Visit Show
+            </button>
           </div>
         </div>
       ))}
