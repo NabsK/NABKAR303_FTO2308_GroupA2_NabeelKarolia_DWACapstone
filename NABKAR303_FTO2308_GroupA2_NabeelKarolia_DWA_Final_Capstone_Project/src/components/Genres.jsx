@@ -1,46 +1,31 @@
-// import { useEffect, useState } from "react";
-// import { fetchPreviewData } from "../data/podcastData.js";
+import PropTypes from "prop-types";
 
-// const Genres = () => {
-//   const [shows, setShows] = useState([]);
+const Genres = ({ onSelectGenre }) => {
+  const genreMapping = {
+    1: "Personal Growth",
+    2: "True Crime and Investigative Journalism",
+    3: "History",
+    4: "Comedy",
+    5: "Entertainment",
+    6: "Business",
+    7: "Fiction",
+    8: "News",
+    9: "Kids and Family",
+  };
 
-//   const genreMapping = {
-//     1: "Personal Growth",
-//     2: "True Crime and Investigative Journalism",
-//     3: "History",
-//     4: "Comedy",
-//     5: "Entertainment",
-//     6: "Business",
-//     7: "Fiction",
-//     8: "News",
-//     9: "Kids and Family",
-//   };
+  return (
+    <div className="container">
+      {Object.entries(genreMapping).map(([genre, title]) => (
+        <button className="button" key={genre} onClick={() => onSelectGenre(Number(genre))}>
+          {title}
+        </button>
+      ))}
+    </div>
+  );
+};
 
-//   useEffect(() => {
-//     const fetchData = async () => {
-//       const data = await fetchPreviewData();
-//       setShows(data);
-//     };
+Genres.propTypes = {
+  onSelectGenre: PropTypes.func.isRequired,
+};
 
-//     fetchData();
-//   }, []);
-
-//   if (shows.length === 0) {
-//     return <div>Loading...</div>;
-//   }
-
-//   // Get all unique genres from the shows
-//   const genres = [...new Set(shows.flatMap((show) => show.genres))];
-
-//   return (
-//     <div className="container">
-//       {genres.map((genre, index) => (
-//         <button className="button" key={index}>
-//           {genreMapping[genre]}
-//         </button>
-//       ))}
-//     </div>
-//   );
-// };
-
-// export default Genres;
+export default Genres;
