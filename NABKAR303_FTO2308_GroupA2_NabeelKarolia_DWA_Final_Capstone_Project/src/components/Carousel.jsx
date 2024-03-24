@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import { fetchPreviewData } from "../data/podcastData.js";
+import { useNavigate } from "react-router-dom";
 
 const Carousel = () => {
   const [shows, setShows] = useState([]);
   const [currentShowIndex, setCurrentShowIndex] = useState(0);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchingShows = async () => {
@@ -20,6 +22,10 @@ const Carousel = () => {
 
   const prevShow = () => {
     setCurrentShowIndex((prevIndex) => (prevIndex - 1 + shows.length) % shows.length);
+  };
+
+  const viewShow = () => {
+    navigate(`/show/${shows[currentShowIndex].id}`);
   };
 
   if (shows.length === 0) {
@@ -40,7 +46,9 @@ const Carousel = () => {
           Previous
         </button>
 
-        <button className="carousel-button">View Show</button>
+        <button onClick={viewShow} className="carousel-button">
+          View Show
+        </button>
 
         <button onClick={nextShow} className="carousel-button">
           Next

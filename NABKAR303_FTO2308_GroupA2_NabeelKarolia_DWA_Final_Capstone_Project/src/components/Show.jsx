@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
 import Season from "./Season";
-import PropTypes from "prop-types";
+import { useParams } from "react-router-dom";
 
-const Show = ({ id }) => {
+const Show = () => {
   const [show, setShow] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  // Get the id from the URL
+  const { id } = useParams();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -38,14 +41,10 @@ const Show = ({ id }) => {
       <h2 className="show-title">{show.title}</h2>
       <p className="show-description">{show.description}</p>
       <div className="season-container">
-        <Season id={id} />
+        <Season id={Number(id)} />
       </div>
     </div>
   );
 };
 
 export default Show;
-
-Show.propTypes = {
-  id: PropTypes.number.isRequired,
-};
