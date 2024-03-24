@@ -146,6 +146,25 @@ body {
   color: aqua;
 }
 
+/* Genres buttons */
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.button {
+  flex: 1 0 auto;
+  background-color: #000000;
+  color: white;
+  border: solid rgb(90, 155, 212);
+  margin: 10px;
+  padding: 10px;
+  box-sizing: border-box;
+  text-align: center;
+  border-radius: 20px;
+}
+
 /* Preview */
 .preview-container {
   display: flex;
@@ -175,22 +194,6 @@ body {
   border-color: rgb(87, 87, 87);
   background-color: #000000;
   color: aqua;
-}
-
-/* Genres buttons */
-.container {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-}
-
-.button {
-  flex: 1 0 auto;
-  margin: 10px;
-  padding: 10px;
-  box-sizing: border-box;
-  text-align: center;
-  border-radius: 20px;
 }
 
 /* show */
@@ -244,6 +247,24 @@ body {
 }
 
 /* Season */
+.season-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px;
+}
+
+.season-dropdown {
+}
+
+.season-image {
+  /* width: 100%; */
+  max-width: 350px;
+  height: 350px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin: 10px;
+}
 
 /* Episode */
 .episode-container {

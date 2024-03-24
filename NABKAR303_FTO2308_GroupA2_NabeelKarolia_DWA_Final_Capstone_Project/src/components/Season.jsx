@@ -39,16 +39,19 @@ const Season = ({ id }) => {
   }
 
   return (
-    <div>
+    <div className="season-container">
+      {selectedSeason && <img src={selectedSeason.image} alt={`Season ${selectedSeason.season}`} className="season-image" />}
       <select onChange={handleSeasonChange}>
-        <option value="">Select a season</option>
+        <option value="" className="season-dropdown">
+          Select a season
+        </option>
         {seasons.map((season, index) => (
           <option key={index} value={season.season}>
             Season {season.season}
           </option>
         ))}
       </select>
-      {selectedSeason && <img src={selectedSeason.image} alt={`Season ${selectedSeason.season}`} />}
+      <p className="season-description">{selectedSeason.description}</p>
       <Episode episodes={selectedSeason.episodes} />
     </div>
   );

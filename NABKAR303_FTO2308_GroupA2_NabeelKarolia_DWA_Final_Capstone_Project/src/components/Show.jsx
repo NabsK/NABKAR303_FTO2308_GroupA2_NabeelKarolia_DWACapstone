@@ -42,7 +42,6 @@ const Show = () => {
         Go Back
       </button>
       <br></br>
-      <img className="show-image" src={show.image} alt={show.title} />
       <h2 className="show-title">{show.title}</h2>
       <p className="show-description">{show.description}</p>
       <div className="season-container">
