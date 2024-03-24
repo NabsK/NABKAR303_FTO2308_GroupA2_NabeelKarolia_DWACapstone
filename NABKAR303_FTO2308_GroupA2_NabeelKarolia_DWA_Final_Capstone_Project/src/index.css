@@ -29,6 +29,21 @@ body {
   height: 29px;
 }
 
+/* Universal loading and error messages */
+.loading {
+  font-size: 1.5em;
+  color: #333;
+  text-align: center;
+  padding: 20px;
+}
+
+.error {
+  font-size: 1.5em;
+  color: red;
+  text-align: center;
+  padding: 20px;
+}
+
 /* Search */
 #search {
   padding-top: 2%;

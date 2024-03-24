@@ -11,6 +11,7 @@ const Season = ({ id }) => {
       const response = await fetch(`https://podcast-api.netlify.app/id/${id}`);
       const data = await response.json();
       setSeasons(data.seasons);
+      setSelectedSeason(data.seasons.find((season) => season.season === 1)); // Set season 1 as the default season
     };
 
     fetchData();
@@ -20,8 +21,8 @@ const Season = ({ id }) => {
     setSelectedSeason(seasons.find((season) => season.season === Number(event.target.value)));
   };
 
-  if (seasons.length === 0) {
-    return <div>Loading...</div>; // Or some other loading state
+  if (!selectedSeason) {
+    return <div>Loading...</div>;
   }
 
   return (
@@ -34,7 +35,7 @@ const Season = ({ id }) => {
           </option>
         ))}
       </select>
-      {selectedSeason && <Episode episodes={selectedSeason.episodes} />}
+      <Episode episodes={selectedSeason.episodes} />
     </div>
   );
 };
