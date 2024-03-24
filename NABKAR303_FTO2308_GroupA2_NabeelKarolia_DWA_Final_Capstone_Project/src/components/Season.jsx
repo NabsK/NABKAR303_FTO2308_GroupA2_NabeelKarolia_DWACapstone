@@ -5,13 +5,22 @@ import PropTypes from "prop-types";
 const Season = ({ id }) => {
   const [seasons, setSeasons] = useState([]);
   const [selectedSeason, setSelectedSeason] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch(`https://podcast-api.netlify.app/id/${id}`);
-      const data = await response.json();
-      setSeasons(data.seasons);
-      setSelectedSeason(data.seasons.find((season) => season.season === 1)); // Set season 1 as the default season
+      setIsLoading(true);
+      try {
+        const response = await fetch(`https://podcast-api.netlify.app/id/${id}`);
+        const data = await response.json();
+        setSeasons(data.seasons);
+        setSelectedSeason(data.seasons.find((season) => season.season === 1)); // Set season 1 as the default season
+        setIsLoading(false);
+      } catch (error) {
+        setError(error);
+        setIsLoading(false);
+      }
     };
 
     fetchData();
@@ -21,8 +30,12 @@ const Season = ({ id }) => {
     setSelectedSeason(seasons.find((season) => season.season === Number(event.target.value)));
   };
 
-  if (!selectedSeason) {
-    return <div>Loading...</div>;
+  if (isLoading) {
+    return <div className="loading">Loading...</div>;
+  }
+
+  if (error) {
+    return <div className="error">Error: {error.message}</div>;
   }
 
   return (
@@ -35,6 +48,7 @@ const Season = ({ id }) => {
           </option>
         ))}
       </select>
+      {selectedSeason && <img src={selectedSeason.image} alt={`Season ${selectedSeason.season}`} />}
       <Episode episodes={selectedSeason.episodes} />
     </div>
   );
@@ -43,5 +57,5 @@ const Season = ({ id }) => {
 export default Season;
 
 Season.propTypes = {
-  id: PropTypes.oneOfType([PropTypes.number]).isRequired,
+  id: PropTypes.number.isRequired,
 };

@@ -1,13 +1,13 @@
 import PropTypes from "prop-types";
 
 const Episode = ({ episodes }) => (
-  <div>
+  <div className="episode-container">
     {episodes.map((episode, index) => (
-      <div key={index}>
-        <h2>{episode.title}</h2>
-        <p>Description: {episode.description}</p>
-        <p>Episode: {episode.episode}</p>
-        <p>File: {episode.file}</p>
+      <div key={index} className="episode-card">
+        <h2 className="episode-title">{episode.title}</h2>
+        <p className="episode-description">Description: {episode.description}</p>
+        <p className="episode-number">Episode: {episode.episode}</p>
+        <p className="episode-file">File: {episode.file}</p>
       </div>
     ))}
   </div>

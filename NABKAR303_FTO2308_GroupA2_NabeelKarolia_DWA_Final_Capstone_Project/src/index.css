@@ -242,3 +242,42 @@ body {
   background-color: rgb(117, 117, 117);
   color: black;
 }
+
+/* Season */
+
+/* Episode */
+.episode-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.episode-card {
+  background-color: #2b2b2b;
+  color: white;
+  margin: 10px;
+  padding: 20px;
+  border-radius: 20px;
+  width: 80%;
+  box-shadow: 0 4px 8px 0 rgba(255, 255, 255, 0.2);
+}
+
+.episode-title {
+  font-size: 1.5em;
+  color: #ffffff;
+}
+
+.episode-description {
+  /* font-size: 1.2em; */
+  color: #ffffff;
+}
+
+.episode-number {
+  font-size: 1em;
+  color: #fefcfc;
+}
+
+.episode-file {
+  font-size: 1em;
+  color: #ffffff;
+}
