@@ -258,7 +258,6 @@ body {
 }
 
 .season-image {
-  /* width: 100%; */
   max-width: 350px;
   height: 350px;
   object-fit: cover;
@@ -271,6 +270,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 90%;
 }
 
 .episode-card {
@@ -279,7 +279,7 @@ body {
   margin: 10px;
   padding: 20px;
   border-radius: 20px;
-  width: 80%;
+  width: 90%;
   box-shadow: 0 4px 8px 0 rgba(255, 255, 255, 0.2);
 }
 
@@ -289,7 +289,6 @@ body {
 }
 
 .episode-description {
-  /* font-size: 1.2em; */
   color: #ffffff;
 }
 

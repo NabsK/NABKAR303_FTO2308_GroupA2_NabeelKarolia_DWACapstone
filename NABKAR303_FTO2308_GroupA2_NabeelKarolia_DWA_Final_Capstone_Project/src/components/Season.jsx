@@ -51,7 +51,6 @@ const Season = ({ id }) => {
           </option>
         ))}
       </select>
-      <p className="season-description">{selectedSeason.description}</p>
       <Episode episodes={selectedSeason.episodes} />
     </div>
   );
