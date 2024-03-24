@@ -2,16 +2,16 @@ import SearchBar from "./SearchBar";
 
 export default function Navbar() {
   return (
-    <nav className="grid-container">
-      <a href="#homeButton" className="grid-item">
+    <nav className="navbar-container">
+      <button className="homeButton">
         <img src="./images/logo1.jpeg" alt="Descriptive Text" id="logo" />
-      </a>
+      </button>
       <SearchBar />
-      <div className="dropdown">
+      <div className="AccountDropdown">
         <button className="dropButton">Account</button>
         <div className="dropdown-content">
-          <a href="#">Sign In</a>
-          <a href="#">Favorites</a>
+          <button href="#">Sign In</button>
+          <button href="#">Favorites</button>
         </div>
       </div>
     </nav>
