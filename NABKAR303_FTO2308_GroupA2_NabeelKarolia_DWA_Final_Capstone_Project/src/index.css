@@ -225,3 +225,20 @@ body {
 .season-container {
   width: 100%;
 }
+
+.showButton {
+  background-color: #000000;
+  border: solid rgb(42, 111, 174);
+  border-radius: 20px;
+  color: white;
+  padding: 20px;
+  margin: 4px;
+  cursor: pointer;
+  transition-duration: 0.4s;
+  margin-left: -80%;
+}
+
+.showButton:hover {
+  background-color: rgb(117, 117, 117);
+  color: black;
+}

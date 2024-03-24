@@ -13,11 +13,18 @@ const HomePage = () => {
       <Router>
         <Routes>
           <Route path="/show/:id" element={<Show />} />
-          <Route path="/" element={<Carousel />} />
+          <Route
+            path="/"
+            element={
+              <>
+                <Carousel />
+                <Genres onSelectGenre={setSelectedGenre} />
+                <Preview selectedGenre={selectedGenre} />
+              </>
+            }
+          />
         </Routes>
       </Router>
-      <Genres onSelectGenre={setSelectedGenre} />
-      <Preview selectedGenre={selectedGenre} />
     </div>
   );
 };

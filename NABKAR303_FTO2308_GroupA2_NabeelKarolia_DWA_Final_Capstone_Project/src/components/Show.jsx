@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Season from "./Season";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 const Show = () => {
   const [show, setShow] = useState(null);
@@ -9,6 +9,7 @@ const Show = () => {
 
   // Get the id from the URL
   const { id } = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -37,6 +38,10 @@ const Show = () => {
 
   return (
     <div className="show-container">
+      <button onClick={() => navigate(-1)} className="showButton">
+        Go Back
+      </button>
+      <br></br>
       <img className="show-image" src={show.image} alt={show.title} />
       <h2 className="show-title">{show.title}</h2>
       <p className="show-description">{show.description}</p>
