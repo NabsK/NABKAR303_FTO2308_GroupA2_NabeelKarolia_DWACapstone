@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Genres from "./Genres";
 import Preview from "./Preview";
 import Carousel from "./Carousel";
@@ -10,21 +10,19 @@ const HomePage = () => {
 
   return (
     <div>
-      <Router>
-        <Routes>
-          <Route path="/show/:id" element={<Show />} />
-          <Route
-            path="/"
-            element={
-              <>
-                <Carousel />
-                <Genres onSelectGenre={setSelectedGenre} />
-                <Preview selectedGenre={selectedGenre} />
-              </>
-            }
-          />
-        </Routes>
-      </Router>
+      <Routes>
+        <Route path="/show/:id" element={<Show />} />
+        <Route
+          path="/"
+          element={
+            <>
+              <Carousel />
+              <Genres onSelectGenre={setSelectedGenre} />
+              <Preview selectedGenre={selectedGenre} />
+            </>
+          }
+        />
+      </Routes>
     </div>
   );
 };
