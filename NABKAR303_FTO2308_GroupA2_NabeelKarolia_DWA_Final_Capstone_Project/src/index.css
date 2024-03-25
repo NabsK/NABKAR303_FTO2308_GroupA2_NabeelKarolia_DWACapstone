@@ -30,7 +30,7 @@ body {
   text-align: center;
   border-bottom-left-radius: 20px;
   border-bottom-right-radius: 20px;
-  border-bottom: 1px solid rgb(0, 132, 255);
+  border-bottom: 1px solid purple;
 }
 
 .homeButton {
@@ -42,7 +42,7 @@ body {
 }
 
 #logo {
-  height: 29px;
+  height: 33px;
 }
 
 /* Account dropdown */
@@ -254,7 +254,18 @@ body {
   margin: 20px;
 }
 
-.season-dropdown {
+.season-select {
+  background-color: #000000;
+  color: white;
+  border-radius: 7px;
+  padding: 6px;
+}
+
+.season-episodesAmount {
+  border: solid purple;
+  border-radius: 20px;
+  background-color: purple;
+  padding: 6px;
 }
 
 .season-image {
