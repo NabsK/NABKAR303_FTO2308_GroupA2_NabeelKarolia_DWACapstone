@@ -143,10 +143,12 @@ body {
   margin: 1%;
   width: 100px;
   padding: 10px;
-  border: solid purple;
+  border: none;
+  border-bottom: solid purple;
   border-radius: 20px;
   background-color: #000000;
   color: white;
+  cursor: pointer;
 }
 
 /* Genres buttons */
@@ -215,6 +217,7 @@ body {
   border-color: rgb(87, 87, 87);
   background-color: #000000;
   color: aqua;
+  cursor: pointer;
 }
 
 /* show */
