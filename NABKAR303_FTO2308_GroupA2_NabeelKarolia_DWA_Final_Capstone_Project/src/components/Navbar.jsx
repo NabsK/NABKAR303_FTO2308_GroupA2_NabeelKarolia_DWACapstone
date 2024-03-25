@@ -13,7 +13,7 @@ export default function Navbar() {
       <div className="AccountDropdown">
         <button className="dropButton">Account</button>
         <div className="dropdown-content">
-          <button href="#">Sign In</button>
+          <button onClick={() => navigate("/login")}>Sign In</button>
           <button href="#">Favorites</button>
         </div>
       </div>
