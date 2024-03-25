@@ -7,6 +7,7 @@ import Show from "./Show";
 
 const HomePage = () => {
   const [selectedGenre, setSelectedGenre] = useState(null);
+  const [sortedShows, setSortedShows] = useState([]);
 
   return (
     <div>
@@ -17,8 +18,8 @@ const HomePage = () => {
           element={
             <>
               <Carousel />
-              <Genres onSelectGenre={setSelectedGenre} />
-              <Preview selectedGenre={selectedGenre} />
+              <Genres onSelectGenre={setSelectedGenre} onSortShows={setSortedShows} />
+              <Preview selectedGenre={selectedGenre} shows={sortedShows} />
             </>
           }
         />

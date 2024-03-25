@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { fetchPreviewData } from "../data/podcastData.js";
 import { useNavigate } from "react-router-dom";
 
-const Preview = ({ selectedGenre }) => {
+const Preview = ({ selectedGenre, shows }) => {
   const genreMapping = {
     1: "Personal Growth",
     2: "True Crime and Investigative Journalism",
@@ -15,19 +15,23 @@ const Preview = ({ selectedGenre }) => {
     8: "News",
     9: "Kids and Family",
   };
-  const [shows, setShows] = useState([]);
+  const [localShows, setLocalShows] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
       const data = await fetchPreviewData();
-      setShows(data);
+      setLocalShows(data);
     };
 
-    fetchData();
-  }, []);
+    if (!shows || shows.length === 0) {
+      fetchData();
+    } else {
+      setLocalShows(shows);
+    }
+  }, [shows]);
 
-  if (shows.length === 0) {
+  if (localShows.length === 0) {
     return <div>Loading...</div>;
   }
 
@@ -40,7 +44,7 @@ const Preview = ({ selectedGenre }) => {
   };
 
   // If selectedGenre is null, display all shows. Otherwise, filter by genre.
-  const filteredShows = selectedGenre === null ? shows : shows.filter((show) => show.genres.includes(selectedGenre));
+  const filteredShows = selectedGenre === null ? localShows : localShows.filter((show) => show.genres.includes(selectedGenre));
 
   return (
     <div className="preview-container">
@@ -64,6 +68,7 @@ const Preview = ({ selectedGenre }) => {
 
 Preview.propTypes = {
   selectedGenre: PropTypes.number,
+  shows: PropTypes.array,
 };
 
 export default Preview;
