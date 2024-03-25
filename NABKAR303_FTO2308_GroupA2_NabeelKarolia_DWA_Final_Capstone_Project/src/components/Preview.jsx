@@ -43,8 +43,8 @@ const Preview = ({ selectedGenre, shows }) => {
     return `${month} ${day}, ${year}`;
   };
 
-  // If selectedGenre is null, display all shows. Otherwise, filter by genre.
-  const filteredShows = selectedGenre === null ? localShows : localShows.filter((show) => show.genres.includes(selectedGenre));
+  // If shows prop is provided, display the shows. Otherwise, filter by genre.
+  const filteredShows = shows ? localShows : selectedGenre === null ? localShows : localShows.filter((show) => show.genres.includes(selectedGenre));
 
   return (
     <div className="preview-container">
