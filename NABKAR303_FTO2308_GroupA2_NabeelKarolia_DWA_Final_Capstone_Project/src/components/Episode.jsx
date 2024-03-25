@@ -19,8 +19,8 @@ const Episode = ({ episodes }) => {
           <h2 className="episode-title">{episode.title}</h2>
           <p className="episode-description">Description: {episode.description}</p>
           <p className="episode-number">Episode: {episode.episode}</p>
-          <button onClick={() => handlePlay(episode.file)}>
-            <img src="./images/play.png" id="play-button"></img>
+          <button onClick={() => handlePlay(episode.file)} className="play-button">
+            ▷ Play
           </button>
         </div>
       ))}
