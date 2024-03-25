@@ -39,6 +39,7 @@ body {
   padding-top: 3%;
   text-decoration: none;
   border: none;
+  cursor: pointer;
 }
 
 #logo {
@@ -139,15 +140,15 @@ body {
 .carousel-button {
   margin: 1%;
   width: 100px;
-  padding: 5px;
+  padding: 10px;
+  border: solid purple;
   border-radius: 20px;
-  border-color: aqua;
   background-color: #000000;
-  color: aqua;
+  color: white;
 }
 
 /* Genres buttons */
-.container {
+.Home-container {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
@@ -163,6 +164,24 @@ body {
   box-sizing: border-box;
   text-align: center;
   border-radius: 20px;
+}
+
+.sort-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.sort-button {
+  flex: 1 0 auto;
+  background-color: #000000;
+  color: white;
+  border: solid rgb(116, 212, 90);
+  margin: 10px;
+  padding: 10px;
+  box-sizing: border-box;
+  text-align: center;
+  border-radius: 15px;
 }
 
 /* Preview */
@@ -311,6 +330,15 @@ body {
 .episode-file {
   font-size: 1em;
   color: #ffffff;
+}
+
+#play-button {
+  /* text-align: center; */
+  background-color: rgb(0, 0, 0);
+  padding-top: 3%;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
 }
 
 /* Audio player */
