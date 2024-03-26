@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { fetchPreviewData } from "../data/podcastData.js";
 import { useNavigate } from "react-router-dom";
 
-const Preview = ({ selectedGenre, shows }) => {
+const Preview = ({ selectedGenre, shows, ignoreGenreFilter }) => {
   const genreMapping = {
     1: "Personal Growth",
     2: "True Crime and Investigative Journalism",
@@ -29,7 +29,7 @@ const Preview = ({ selectedGenre, shows }) => {
     } else {
       setLocalShows(shows);
     }
-  }, [shows]);
+  }, [shows, selectedGenre]); // add selectedGenre as a dependency
 
   if (localShows.length === 0) {
     return <div>Loading...</div>;
@@ -43,8 +43,8 @@ const Preview = ({ selectedGenre, shows }) => {
     return `${month} ${day}, ${year}`;
   };
 
-  // If shows prop is provided, display the shows. Otherwise, filter by genre.
-  const filteredShows = shows ? localShows : selectedGenre === null ? localShows : localShows.filter((show) => show.genres.includes(selectedGenre));
+  // If ignoreGenreFilter prop is true, display all shows. Otherwise, filter by genre.
+  const filteredShows = ignoreGenreFilter ? localShows : selectedGenre === null ? localShows : localShows.filter((show) => show.genres.includes(selectedGenre));
 
   return (
     <div className="preview-container">
@@ -69,6 +69,7 @@ const Preview = ({ selectedGenre, shows }) => {
 Preview.propTypes = {
   selectedGenre: PropTypes.number,
   shows: PropTypes.array,
+  ignoreGenreFilter: PropTypes.bool, // add this line
 };
 
 export default Preview;

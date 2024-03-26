@@ -2,8 +2,8 @@ import PropTypes from "prop-types";
 import { useState, useEffect } from "react";
 import { fetchPreviewData } from "../data/podcastData.js";
 
-const Genres = ({ onSelectGenre, onSortShows }) => {
-  const [shows, setShows] = useState([]);
+const Genres = ({ onSelectGenre, setShows }) => {
+  const [localShows, setLocalShows] = useState([]);
   const genreMapping = {
     1: "Personal Growth",
     2: "True Crime and Investigative Journalism",
@@ -19,13 +19,17 @@ const Genres = ({ onSelectGenre, onSortShows }) => {
   useEffect(() => {
     const fetchData = async () => {
       const data = await fetchPreviewData();
-      setShows(data);
+      setLocalShows(data);
     };
     fetchData();
   }, []);
 
+  useEffect(() => {
+    setShows(localShows); // update the shows in the HomePage component whenever localShows changes
+  }, [localShows, setShows]);
+
   const sortShows = (order, field = "title") => {
-    const sortedShows = [...shows].sort((a, b) => {
+    const sortedShows = [...localShows].sort((a, b) => {
       const aValue = field === "updated" ? new Date(a[field]) : a[field].toUpperCase();
       const bValue = field === "updated" ? new Date(b[field]) : b[field].toUpperCase();
       if (order === "asc") {
@@ -34,8 +38,7 @@ const Genres = ({ onSelectGenre, onSortShows }) => {
         return aValue > bValue ? -1 : aValue < bValue ? 1 : 0;
       }
     });
-    setShows(sortedShows);
-    onSortShows(sortedShows);
+    setLocalShows(sortedShows);
   };
 
   return (
@@ -69,7 +72,7 @@ const Genres = ({ onSelectGenre, onSortShows }) => {
 
 Genres.propTypes = {
   onSelectGenre: PropTypes.func.isRequired,
-  onSortShows: PropTypes.func.isRequired,
+  setShows: PropTypes.func.isRequired,
 };
 
 export default Genres;

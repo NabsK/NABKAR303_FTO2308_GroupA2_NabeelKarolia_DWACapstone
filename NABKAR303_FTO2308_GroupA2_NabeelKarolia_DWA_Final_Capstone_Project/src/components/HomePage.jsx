@@ -8,7 +8,7 @@ import SearchResults from "./SearchResults";
 
 const HomePage = () => {
   const [selectedGenre, setSelectedGenre] = useState(null);
-  const [sortedShows, setSortedShows] = useState([]);
+  const [shows, setShows] = useState([]); // rename sortedShows to shows
 
   return (
     <div>
@@ -20,8 +20,8 @@ const HomePage = () => {
           element={
             <>
               <Carousel />
-              <Genres onSelectGenre={setSelectedGenre} onSortShows={setSortedShows} />
-              <Preview selectedGenre={selectedGenre} shows={sortedShows} />
+              <Genres onSelectGenre={setSelectedGenre} setShows={setShows} />
+              <Preview selectedGenre={selectedGenre} shows={shows} />
             </>
           }
         />
