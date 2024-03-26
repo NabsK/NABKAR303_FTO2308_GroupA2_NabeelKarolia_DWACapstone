@@ -17,7 +17,7 @@ const SearchResults = () => {
       <button onClick={() => navigate(-1)} className="SearchResultButton">
         Go Back
       </button>
-      <Preview shows={shows} ignoreGenreFilter={true} /> {/* add ignoreGenreFilter prop */}
+      <Preview shows={shows} ignoreGenreFilter={true} />
     </div>
   );
 };

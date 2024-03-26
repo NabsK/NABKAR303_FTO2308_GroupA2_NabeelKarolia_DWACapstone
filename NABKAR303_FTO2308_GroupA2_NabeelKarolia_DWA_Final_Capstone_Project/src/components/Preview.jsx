@@ -69,7 +69,7 @@ const Preview = ({ selectedGenre, shows, ignoreGenreFilter }) => {
 Preview.propTypes = {
   selectedGenre: PropTypes.number,
   shows: PropTypes.array,
-  ignoreGenreFilter: PropTypes.bool, // add this line
+  ignoreGenreFilter: PropTypes.bool,
 };
 
 export default Preview;
