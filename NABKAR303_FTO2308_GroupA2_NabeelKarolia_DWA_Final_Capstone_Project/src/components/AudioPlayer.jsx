@@ -8,3 +8,4 @@
 // update it with consumer
 
 // or using url , url must be state inside redux store
+// https://github.com/schalkventer/epic-stream-app
