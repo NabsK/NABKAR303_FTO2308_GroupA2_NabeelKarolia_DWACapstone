@@ -1,7 +1,25 @@
 import { useNavigate } from "react-router-dom";
+import { supabase } from "../supabaseInit.js";
 
 export default function Login() {
   const navigate = useNavigate();
+
+  async function handleLogin(event) {
+    event.preventDefault();
+    const { email, password } = event.target.elements;
+    let { error } = await supabase.auth.signInWithPassword({
+      email: email.value,
+      password: password.value,
+    });
+    if (error) {
+      console.error("Error signing in:", error.message);
+    } else {
+      let user = (await supabase.auth.getUser()).data.user; // get the user data from the session
+      console.log("Success! Signed in:", user);
+      localStorage.setItem("user", JSON.stringify(user)); // store user data in local storage
+      navigate("/"); // navigate to homepage after successful login
+    }
+  }
 
   return (
     <div className="login-container">
@@ -17,16 +35,14 @@ export default function Login() {
           Sign Up
         </button>
       </div>
-      <div className="login-form item-02">
-        <form action="#" method="post">
-          <br></br>
-          <input type="email" name="email" placeholder="Email" className="login-input" required />
-          <br></br>
-          <input type="password" name="password" placeholder="Password" className="login-input" required />
-          <br></br>
-          <input type="submit" value="Login" className="login-button" />
-        </form>
-      </div>
+      <form onSubmit={handleLogin} className="login-form item-02">
+        <br></br>
+        <input type="email" name="email" placeholder="Email" className="login-input" required />
+        <br></br>
+        <input type="password" name="password" placeholder="Password" className="login-input" required />
+        <br></br>
+        <input type="submit" value="Login" className="login-button" />
+      </form>
     </div>
   );
 }

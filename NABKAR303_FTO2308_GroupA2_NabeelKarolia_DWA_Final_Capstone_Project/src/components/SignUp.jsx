@@ -1,7 +1,31 @@
 import { useNavigate } from "react-router-dom";
+import { supabase } from "../supabaseInit.js";
 
 export default function SignUp() {
   const navigate = useNavigate();
+
+  async function handleSignUp(event) {
+    event.preventDefault();
+    const { email, password } = event.target.elements;
+
+    // Check if password length is less than 6
+    if (password.value.length < 6) {
+      alert("Password should be at least 6 characters long.");
+      return;
+    }
+
+    let { user, error } = await supabase.auth.signUp({
+      email: email.value,
+      password: password.value,
+    });
+    if (error) {
+      console.error("Error signing up:", error.message);
+    } else {
+      console.log("Success! Signed up:", user);
+      navigate("/login"); // navigate to login page after successful sign-up
+    }
+  }
+
   return (
     <div className="signUp-container">
       <div className="signUp-page item-01">
@@ -13,7 +37,7 @@ export default function SignUp() {
         <br></br>
         <h2>Create an account with us.</h2>
       </div>
-      <form action="#" method="post" className="signUp-form item-02">
+      <form onSubmit={handleSignUp} className="signUp-form item-02">
         <input type="email" name="email" placeholder="Email" className="signUp-input" required />
         <input type="password" name="password" placeholder="Password" className="signUp-input" required />
         <input type="submit" value="Sign Up" className="signUp-button" />
