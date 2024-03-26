@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { fetchPreviewData } from "../data/podcastData.js";
+import Fuse from "fuse.js";
 
 export default function SearchBar() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -17,7 +18,19 @@ export default function SearchBar() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const matchingShows = shows.filter((show) => show.title.toLowerCase().includes(searchTerm.toLowerCase()));
+
+    // Fuse.js options
+    const options = {
+      includeScore: true,
+      keys: ["title"],
+    };
+
+    // Create a new instance of Fuse with the shows and options
+    const fuse = new Fuse(shows, options);
+
+    // Use Fuse to search for the searchTerm
+    const matchingShows = fuse.search(searchTerm).map(({ item }) => item);
+
     if (matchingShows.length === 0) {
       alert("Show not found");
     } else {
