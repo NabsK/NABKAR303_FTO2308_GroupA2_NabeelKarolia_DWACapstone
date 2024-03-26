@@ -20,7 +20,7 @@ export default function Login() {
       <div className="login-form item-02">
         <form action="#" method="post">
           <br></br>
-          <input type="text" name="username" placeholder="Username" className="login-input" required />
+          <input type="email" name="email" placeholder="Email" className="login-input" required />
           <br></br>
           <input type="password" name="password" placeholder="Password" className="login-input" required />
           <br></br>
