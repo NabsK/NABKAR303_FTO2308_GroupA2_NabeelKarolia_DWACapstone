@@ -7,6 +7,8 @@ const Season = ({ id }) => {
   const [selectedSeason, setSelectedSeason] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [showTitle, setShowTitle] = useState(null);
+  const [updated, setUpdated] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -17,6 +19,8 @@ const Season = ({ id }) => {
         setSeasons(data.seasons);
         setSelectedSeason(data.seasons.find((season) => season.season === 1)); // Set season 1 as the default season
         setIsLoading(false);
+        setShowTitle(data.title);
+        setUpdated(data.updated);
       } catch (error) {
         setError(error);
         setIsLoading(false);
@@ -53,7 +57,7 @@ const Season = ({ id }) => {
         ))}
       </select>
       {selectedSeason && <p className="season-episodesAmount">Episodes: {selectedSeason.episodes.length}</p>}
-      <Episode episodes={selectedSeason ? selectedSeason.episodes : []} />
+      <Episode episodes={selectedSeason ? selectedSeason.episodes : []} id={Number(id)} selectedSeason={selectedSeason} showTitle={showTitle} updated={updated} />{" "}
     </div>
   );
 };

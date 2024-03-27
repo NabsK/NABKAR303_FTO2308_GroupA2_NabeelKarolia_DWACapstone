@@ -512,7 +512,23 @@ body {
   border-radius: 20px;
   color: white;
   padding: 20px;
-  margin: 4px;
+  margin: 2%;
   cursor: pointer;
-  /* margin-left: -80%; */
+}
+
+.add-to-favorites-button {
+  background-color: #2b2b2b;
+  padding: 5px;
+  color: rgb(186, 36, 91);
+  border: none;
+  cursor: pointer;
+  margin-left: 4%;
+}
+
+.removeFav-button {
+  background-color: #2b2b2b;
+  padding: 5px;
+  color: rgb(186, 36, 91);
+  border: none;
+  cursor: pointer;
 }

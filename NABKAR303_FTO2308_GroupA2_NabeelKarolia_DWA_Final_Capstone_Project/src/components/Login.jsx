@@ -15,6 +15,7 @@ export default function Login() {
 
     if (error) {
       console.error("Error signing in:", error.message);
+      window.alert("Invalid credentials. Please try again.");
     } else {
       let user = (await supabase.auth.getUser()).data.user; // get the user data from the session
       console.log("Success! Signed in:", user);

@@ -20,6 +20,15 @@ export default function Favorites() {
     }
   }
 
+  async function removeFromFavorites(favoriteId) {
+    const { error } = await supabase.from("favorites").delete().eq("id", favoriteId);
+    if (error) {
+      console.error("Error removing favorite:", error);
+    } else {
+      setFavorites((prevFavorites) => prevFavorites.filter((favorite) => favorite.id !== favoriteId));
+    }
+  }
+
   const handlePlay = (fileUrl) => {
     setAudioSrc(fileUrl);
   };
@@ -36,7 +45,16 @@ export default function Favorites() {
       <div className="episode-container">
         {favorites.map((favorite, index) => (
           <div key={index} className="episode-card">
+            <p>{favorite.show_title}</p>
             <h2 className="episode-title">{favorite.episode_title}</h2>
+            <p>{favorite.season_title}</p>
+            <button onClick={() => removeFromFavorites(favorite.id)} className="removeFav-button">
+              💔 Remove from Favorites
+            </button>
+
+            <p>{favorite.episode_description}</p>
+            <p>Added to favs: {favorite.created_at}</p>
+            <p>Updated: {favorite.updated}</p>
             <button onClick={() => handlePlay(favorite.mp3_file)} className="play-button">
               ▷ Play
             </button>

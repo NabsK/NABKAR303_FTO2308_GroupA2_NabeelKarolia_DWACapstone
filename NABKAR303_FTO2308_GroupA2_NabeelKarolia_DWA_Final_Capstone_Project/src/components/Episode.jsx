@@ -2,7 +2,7 @@ import { useState } from "react";
 import PropTypes from "prop-types";
 import { supabase } from "../supabaseInit.js";
 
-const Episode = ({ episodes }) => {
+const Episode = ({ episodes, id, selectedSeason, showTitle, updated }) => {
   const [audioSrc, setAudioSrc] = useState(null);
 
   const handlePlay = (fileUrl) => {
@@ -16,8 +16,20 @@ const Episode = ({ episodes }) => {
   async function handleAddToFavorites(episode) {
     const user = JSON.parse(localStorage.getItem("user"));
     if (user) {
-      const { data, error } = await supabase.from("favorites").insert([{ user_id: user.id, episode_title: episode.title, mp3_file: episode.file }]);
-      // get show and season things
+      const { data, error } = await supabase.from("favorites").insert([
+        {
+          user_id: user.id,
+          episode_title: episode.title,
+          episode_description: episode.description,
+          mp3_file: episode.file,
+          show_id: id,
+          season_title: selectedSeason.title,
+          season_image: selectedSeason.image,
+          show_title: showTitle,
+          updated: updated,
+        },
+      ]);
+
       if (error) console.error("Error adding favorite:", error);
       else console.log("Favorite added:", data);
     } else {
@@ -36,7 +48,7 @@ const Episode = ({ episodes }) => {
             ▷ Play
           </button>
           <button onClick={() => handleAddToFavorites(episode)} className="add-to-favorites-button">
-            Add to Favorites
+            ♡ Add to Favorites
           </button>
         </div>
       ))}
@@ -63,4 +75,11 @@ Episode.propTypes = {
       file: PropTypes.string,
     })
   ).isRequired,
+  id: PropTypes.number.isRequired,
+  selectedSeason: PropTypes.shape({
+    title: PropTypes.string,
+    image: PropTypes.string,
+  }).isRequired,
+  showTitle: PropTypes.string.isRequired,
+  updated: PropTypes.string.isRequired,
 };
