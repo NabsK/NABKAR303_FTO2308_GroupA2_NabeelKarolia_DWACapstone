@@ -7,17 +7,19 @@ export default function Login() {
   async function handleLogin(event) {
     event.preventDefault();
     const { email, password } = event.target.elements;
+
     let { error } = await supabase.auth.signInWithPassword({
       email: email.value,
       password: password.value,
     });
+
     if (error) {
       console.error("Error signing in:", error.message);
     } else {
       let user = (await supabase.auth.getUser()).data.user; // get the user data from the session
       console.log("Success! Signed in:", user);
       localStorage.setItem("user", JSON.stringify(user)); // store user data in local storage
-      navigate("/"); // navigate to homepage after successful login
+      navigate("/");
     }
   }
 
