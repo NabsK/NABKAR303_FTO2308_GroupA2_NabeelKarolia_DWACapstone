@@ -36,30 +36,37 @@ export default function Favorites() {
   const handlePause = () => {
     setAudioSrc(null);
   };
-
+  // Favorites Component
   return (
     <div className="Favorites-page">
       <button className="favHomeButton" onClick={() => navigate("/")}>
         Back to Home
       </button>
       <div className="episode-container">
-        {favorites.map((favorite, index) => (
-          <div key={index} className="episode-card">
-            <p>{favorite.show_title}</p>
-            <h2 className="episode-title">{favorite.episode_title}</h2>
-            <p>{favorite.season_title}</p>
-            <button onClick={() => removeFromFavorites(favorite.id)} className="removeFav-button">
-              💔 Remove from Favorites
-            </button>
+        {favorites
+          .sort((a, b) => {
+            if (a.show_title !== b.show_title) {
+              return a.show_title.localeCompare(b.show_title);
+            }
+            return a.season_title.localeCompare(b.season_title);
+          })
+          .map((favorite, index) => (
+            <div key={index} className="episode-card">
+              <p>{favorite.show_title}</p>
+              <h2 className="episode-title">{favorite.episode_title}</h2>
+              <p>{favorite.season_title}</p>
+              <button onClick={() => removeFromFavorites(favorite.id)} className="removeFav-button">
+                💔 Remove from Favorites
+              </button>
 
-            <p>{favorite.episode_description}</p>
-            <p>Added to favs: {favorite.created_at}</p>
-            <p>Updated: {favorite.updated}</p>
-            <button onClick={() => handlePlay(favorite.mp3_file)} className="play-button">
-              ▷ Play
-            </button>
-          </div>
-        ))}
+              <p>{favorite.episode_description}</p>
+              <p>Added to favs: {new Date(favorite.created_at).toLocaleString()}</p>
+              <p>Updated: {new Date(favorite.updated).toLocaleDateString()}</p>
+              <button onClick={() => handlePlay(favorite.mp3_file)} className="play-button">
+                ▷ Play
+              </button>
+            </div>
+          ))}
         {audioSrc && (
           <div className="audio-player-container">
             <audio controls autoPlay onEnded={handlePause} className="audio-player">
