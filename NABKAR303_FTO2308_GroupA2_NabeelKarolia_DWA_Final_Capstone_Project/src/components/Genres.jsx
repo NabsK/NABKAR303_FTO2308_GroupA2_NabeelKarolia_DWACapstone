@@ -67,6 +67,7 @@ const Genres = ({ onSelectGenre, setShows }) => {
         </button>
       </div>
     </div>
+    // comment
   );
 };
 
