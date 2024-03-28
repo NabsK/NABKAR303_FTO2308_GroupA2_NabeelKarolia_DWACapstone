@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { supabase } from "../supabaseInit.js";
 
 export default function Favorites() {
@@ -8,23 +8,24 @@ export default function Favorites() {
   const [audioSrc, setAudioSrc] = useState(null);
   const [sortField, setSortField] = useState("show_title");
   const [sortOrder, setSortOrder] = useState("asc");
+  const [sortedFavorites, setSortedFavorites] = useState([]);
 
-  const sortFavorites = (field, order) => {
-    const sortedFavorites = [...favorites].sort((a, b) => {
-      const aValue = field === "updated" ? new Date(a[field]) : a[field].toUpperCase();
-      const bValue = field === "updated" ? new Date(b[field]) : b[field].toUpperCase();
-      if (order === "asc") {
+  const sortFavorites = useCallback(() => {
+    const sorted = [...favorites].sort((a, b) => {
+      const aValue = sortField === "updated" ? new Date(a[sortField]) : a[sortField].toUpperCase();
+      const bValue = sortField === "updated" ? new Date(b[sortField]) : b[sortField].toUpperCase();
+      if (sortOrder === "asc") {
         return aValue < bValue ? -1 : aValue > bValue ? 1 : 0;
       } else {
         return aValue > bValue ? -1 : aValue < bValue ? 1 : 0;
       }
     });
-    setFavorites(sortedFavorites);
-  };
+    setSortedFavorites(sorted);
+  }, [favorites, sortField, sortOrder]);
 
   useEffect(() => {
-    sortFavorites(sortField, sortOrder);
-  }, [sortField, sortOrder]);
+    sortFavorites();
+  }, [sortFavorites]);
 
   useEffect(() => {
     fetchFavorites();
@@ -100,7 +101,7 @@ export default function Favorites() {
         </button>
       </div>
       <div className="episode-container">
-        {favorites.map((favorite, index) => (
+        {sortedFavorites.map((favorite, index) => (
           <div key={index} className="episode-card">
             <p>{favorite.show_title}</p>
             <h2 className="episode-title">{favorite.episode_title}</h2>
