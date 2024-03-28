@@ -6,6 +6,25 @@ export default function Favorites() {
   const navigate = useNavigate();
   const [favorites, setFavorites] = useState([]);
   const [audioSrc, setAudioSrc] = useState(null);
+  const [sortField, setSortField] = useState("show_title");
+  const [sortOrder, setSortOrder] = useState("asc");
+
+  const sortFavorites = (field, order) => {
+    const sortedFavorites = [...favorites].sort((a, b) => {
+      const aValue = field === "updated" ? new Date(a[field]) : a[field].toUpperCase();
+      const bValue = field === "updated" ? new Date(b[field]) : b[field].toUpperCase();
+      if (order === "asc") {
+        return aValue < bValue ? -1 : aValue > bValue ? 1 : 0;
+      } else {
+        return aValue > bValue ? -1 : aValue < bValue ? 1 : 0;
+      }
+    });
+    setFavorites(sortedFavorites);
+  };
+
+  useEffect(() => {
+    sortFavorites(sortField, sortOrder);
+  }, [sortField, sortOrder]);
 
   useEffect(() => {
     fetchFavorites();
@@ -36,37 +55,68 @@ export default function Favorites() {
   const handlePause = () => {
     setAudioSrc(null);
   };
-  // Favorites Component
+
   return (
     <div className="Favorites-page">
       <button className="favHomeButton" onClick={() => navigate("/")}>
         Back to Home
       </button>
+      <div className="sort-container">
+        <button
+          className="sort-button"
+          onClick={() => {
+            setSortField("show_title");
+            setSortOrder("asc");
+          }}
+        >
+          Sort by Show Titles A-Z
+        </button>
+        <button
+          className="sort-button"
+          onClick={() => {
+            setSortField("show_title");
+            setSortOrder("desc");
+          }}
+        >
+          Sort by Show Titles Z-A
+        </button>
+        <button
+          className="sort-button"
+          onClick={() => {
+            setSortField("updated");
+            setSortOrder("asc");
+          }}
+        >
+          Sort by Date Updated (Oldest First)
+        </button>
+        <button
+          className="sort-button"
+          onClick={() => {
+            setSortField("updated");
+            setSortOrder("desc");
+          }}
+        >
+          Sort by Date Updated (Newest First)
+        </button>
+      </div>
       <div className="episode-container">
-        {favorites
-          .sort((a, b) => {
-            if (a.show_title !== b.show_title) {
-              return a.show_title.localeCompare(b.show_title);
-            }
-            return a.season_title.localeCompare(b.season_title);
-          })
-          .map((favorite, index) => (
-            <div key={index} className="episode-card">
-              <p>{favorite.show_title}</p>
-              <h2 className="episode-title">{favorite.episode_title}</h2>
-              <p>{favorite.season_title}</p>
-              <button onClick={() => removeFromFavorites(favorite.id)} className="removeFav-button">
-                💔 Remove from Favorites
-              </button>
+        {favorites.map((favorite, index) => (
+          <div key={index} className="episode-card">
+            <p>{favorite.show_title}</p>
+            <h2 className="episode-title">{favorite.episode_title}</h2>
+            <p>{favorite.season_title}</p>
+            <button onClick={() => removeFromFavorites(favorite.id)} className="removeFav-button">
+              💔 Remove from Favorites
+            </button>
 
-              <p>{favorite.episode_description}</p>
-              <p>Added to favs: {new Date(favorite.created_at).toLocaleString()}</p>
-              <p>Updated: {new Date(favorite.updated).toLocaleDateString()}</p>
-              <button onClick={() => handlePlay(favorite.mp3_file)} className="play-button">
-                ▷ Play
-              </button>
-            </div>
-          ))}
+            <p>{favorite.episode_description}</p>
+            <p>Added to favs: {new Date(favorite.created_at).toLocaleString()}</p>
+            <p>Updated: {new Date(favorite.updated).toLocaleDateString()}</p>
+            <button onClick={() => handlePlay(favorite.mp3_file)} className="play-button">
+              ▷ Play
+            </button>
+          </div>
+        ))}
         {audioSrc && (
           <div className="audio-player-container">
             <audio controls autoPlay onEnded={handlePause} className="audio-player">
