@@ -25,7 +25,7 @@ export default function Navbar() {
   return (
     <nav className="navbar-container">
       <button className="homeButton" onClick={() => navigate("/")}>
-        <img src="./images/logo1.jpeg" alt="Descriptive Text" id="logo" />
+        <img src="./images/logo1.jpeg" alt="Podcast Pulse" id="logo" />
       </button>
       <SearchBar />
       <div className="AccountDropdown">
