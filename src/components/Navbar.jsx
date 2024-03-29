@@ -18,6 +18,7 @@ export default function Navbar() {
 
   async function handleSignOut() {
     const { error } = await supabase.auth.signOut();
+    localStorage.removeItem("user");
     if (error) console.error("Error signing out:", error);
     else navigate("/");
   }

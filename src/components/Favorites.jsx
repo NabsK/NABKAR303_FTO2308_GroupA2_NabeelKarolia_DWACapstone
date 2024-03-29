@@ -5,7 +5,6 @@ import { supabase } from "../supabaseInit.js";
 export default function Favorites() {
   const navigate = useNavigate();
   const [favorites, setFavorites] = useState([]);
-  const [audioSrc, setAudioSrc] = useState(null);
   const [sortField, setSortField] = useState("show_title");
   const [sortOrder, setSortOrder] = useState("asc");
   const [sortedFavorites, setSortedFavorites] = useState([]);
@@ -49,12 +48,49 @@ export default function Favorites() {
     }
   }
 
-  const handlePlay = (fileUrl) => {
-    setAudioSrc(fileUrl);
-  };
+  const handlePlay = async (episode) => {
+    fetch(episode.file)
+      .then((response) => response.blob())
+      .then((blob) => {
+        const reader = new FileReader();
+        reader.onload = () => {
+          const audioData = reader.result;
+          localStorage.setItem("audio", audioData);
+        };
+        reader.readAsDataURL(blob);
+      })
+      .catch((error) => console.error("Error fetching audio file:", error));
+    localStorage.setItem("Episode", JSON.stringify(episode));
+    window.dispatchEvent(new Event("storage"));
+    console.log("In handlePlay");
 
-  const handlePause = () => {
-    setAudioSrc(null);
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (user) {
+      // Fetch existing progress
+      const { data: existingProgress, error } = await supabase.from("Episode_Progress").select("*").eq("user_id", user.id);
+      if (error) {
+        console.error("Error fetching episode progress:", error);
+        return;
+      }
+
+      // Insert or update progress
+      if (existingProgress && existingProgress.length > 0) {
+        // Progress exists, update the timestamp to 0
+        await supabase.from("Episode_Progress").update({ mp3_timestamp: 0, episode_description: episode.description }).eq("user_id", user.id).eq("mp3_file", episode.file);
+      } else {
+        // Progress doesn't exist, insert with timestamp as 0
+        await supabase.from("Episode_Progress").insert([
+          {
+            user_id: user.id,
+            episode_description: episode.description,
+            mp3_file: episode.file,
+            mp3_timestamp: 0,
+          },
+        ]);
+      }
+    } else {
+      console.log("User must be logged in to save episode progress.");
+    }
   };
 
   return (
@@ -113,19 +149,11 @@ export default function Favorites() {
             <p className="episode-description">{favorite.episode_description}</p>
             <p>Added to favs: {new Date(favorite.created_at).toLocaleString()}</p>
             <p>Updated: {new Date(favorite.updated).toLocaleDateString()}</p>
-            <button onClick={() => handlePlay(favorite.mp3_file)} className="play-button">
+            <button onClick={() => handlePlay(favorite)} className="play-button">
               ▷ Play
             </button>
           </div>
         ))}
-        {audioSrc && (
-          <div className="audio-player-container">
-            <audio controls autoPlay onEnded={handlePause} className="audio-player">
-              <source src={audioSrc} type="audio/mpeg" />
-              Your browser does not support the audio element.
-            </audio>
-          </div>
-        )}
       </div>
     </div>
   );

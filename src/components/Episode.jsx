@@ -1,17 +1,23 @@
-import { useState, useRef } from "react";
 import PropTypes from "prop-types";
 import { supabase } from "../supabaseInit.js";
 
 const Episode = ({ episodes, id, selectedSeason, showTitle, updated }) => {
-  const [audioSrc, setAudioSrc] = useState(null);
-  const audioRef = useRef(null);
-
   const handlePlay = async (episode) => {
-    setAudioSrc(episode.file); // Set the new audio source first
-    if (audioRef.current) {
-      audioRef.current.currentTime = 0;
-      audioRef.current.play(); // Start playing the audio automatically
-    }
+    localStorage.setItem("audio", episode.file);
+    window.dispatchEvent(new Event("storage"));
+    fetch(episode.file)
+      .then((response) => response.blob())
+      .then((blob) => {
+        const reader = new FileReader();
+        reader.onload = () => {
+          const audioData = reader.result;
+          localStorage.setItem("audio", audioData);
+        };
+        reader.readAsDataURL(blob);
+      })
+      .catch((error) => console.error("Error fetching audio file:", error));
+    localStorage.setItem("Episode", JSON.stringify(episode));
+    window.dispatchEvent(new Event("storage"));
 
     const user = JSON.parse(localStorage.getItem("user"));
     if (user) {
@@ -39,21 +45,6 @@ const Episode = ({ episodes, id, selectedSeason, showTitle, updated }) => {
       }
     } else {
       console.log("User must be logged in to save episode progress.");
-    }
-  };
-
-  const handleTimestamp = async () => {
-    if (audioRef.current) {
-      const currentTime = audioRef.current.currentTime;
-      const user = JSON.parse(localStorage.getItem("user"));
-
-      if (user) {
-        // Update progress in the database with the current timestamp
-
-        await supabase.from("Episode_Progress").update({ mp3_timestamp: currentTime }).eq("user_id", user.id); // Update progress for the currently playing audio file
-      } else {
-        console.log("User must be logged in to save episode progress.");
-      }
     }
   };
 
@@ -96,14 +87,6 @@ const Episode = ({ episodes, id, selectedSeason, showTitle, updated }) => {
           </button>
         </div>
       ))}
-      {audioSrc && (
-        <div className="audio-player-container">
-          <audio ref={audioRef} controls autoPlay onPause={handleTimestamp} className="audio-player">
-            <source src={audioSrc} type="audio/mpeg" />
-            Your browser does not support the audio element.
-          </audio>
-        </div>
-      )}
     </div>
   );
 };

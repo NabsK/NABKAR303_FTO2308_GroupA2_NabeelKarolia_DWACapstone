@@ -21,6 +21,7 @@ export default function Login() {
       console.log("Success! Signed in:", user);
       localStorage.setItem("user", JSON.stringify(user)); // store user data in local storage
       navigate("/");
+      window.location.reload();
     }
   }
 
