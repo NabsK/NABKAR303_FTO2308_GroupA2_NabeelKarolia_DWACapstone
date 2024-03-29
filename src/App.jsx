@@ -62,6 +62,21 @@ function App() {
     }
   };
 
+  useEffect(() => {
+    const handleBeforeUnload = (e) => {
+      if (audioRef.current && !audioRef.current.paused) {
+        e.preventDefault();
+        e.returnValue = "Audio is playing, Are you sure you want to leave?";
+      }
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, []);
+
   return (
     <Router>
       <Navbar />
