@@ -8,7 +8,6 @@ export default function SignUp() {
     event.preventDefault();
     const { email, password } = event.target.elements;
 
-    // Check if password length is less than 6
     if (password.value.length < 6) {
       alert("Password should be at least 6 characters long.");
       return;
@@ -22,7 +21,8 @@ export default function SignUp() {
       console.error("Error signing up:", error.message);
     } else {
       console.log("Success! Signed up:", user);
-      navigate("/login"); // navigate to login page after successful sign-up
+      window.alert("Check your email to confirm sign up.");
+      navigate("/login");
     }
   }
 

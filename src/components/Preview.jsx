@@ -52,7 +52,7 @@ const Preview = ({ selectedGenre, shows, ignoreGenreFilter }) => {
         <div className="preview-card" key={index}>
           <img className="preview-image" src={show.image} alt={show.title} />
           <div className="preview-content">
-            <h2>{show.title}</h2>
+            <h3>{show.title}</h3>
             <p>Seasons: {show.seasons}</p>
             <p>Genres: {show.genres.map((genreId) => genreMapping[genreId]).join(", ")}</p>
             <p>Last Updated: {formatUpdatedDate(show.updated)}</p>

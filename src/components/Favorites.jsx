@@ -100,7 +100,7 @@ export default function Favorites() {
           Sort by Date Updated (Newest First)
         </button>
       </div>
-      <div className="episode-container">
+      <div className="favEpisode-container">
         {sortedFavorites.map((favorite, index) => (
           <div key={index} className="episode-card">
             <p>{favorite.show_title}</p>
@@ -110,7 +110,7 @@ export default function Favorites() {
               💔 Remove from Favorites
             </button>
 
-            <p>{favorite.episode_description}</p>
+            <p className="episode-description">{favorite.episode_description}</p>
             <p>Added to favs: {new Date(favorite.created_at).toLocaleString()}</p>
             <p>Updated: {new Date(favorite.updated).toLocaleDateString()}</p>
             <button onClick={() => handlePlay(favorite.mp3_file)} className="play-button">

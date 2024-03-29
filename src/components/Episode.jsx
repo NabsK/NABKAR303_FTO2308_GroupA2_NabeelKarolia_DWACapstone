@@ -1,16 +1,60 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import PropTypes from "prop-types";
 import { supabase } from "../supabaseInit.js";
 
 const Episode = ({ episodes, id, selectedSeason, showTitle, updated }) => {
   const [audioSrc, setAudioSrc] = useState(null);
+  const audioRef = useRef(null);
 
-  const handlePlay = (fileUrl) => {
-    setAudioSrc(fileUrl);
+  const handlePlay = async (episode) => {
+    setAudioSrc(episode.file); // Set the new audio source first
+    if (audioRef.current) {
+      audioRef.current.currentTime = 0;
+      audioRef.current.play(); // Start playing the audio automatically
+    }
+
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (user) {
+      // Fetch existing progress
+      const { data: existingProgress, error } = await supabase.from("Episode_Progress").select("*").eq("user_id", user.id);
+      if (error) {
+        console.error("Error fetching episode progress:", error);
+        return;
+      }
+
+      // Insert or update progress
+      if (existingProgress && existingProgress.length > 0) {
+        // Progress exists, update the timestamp to 0
+        await supabase.from("Episode_Progress").update({ mp3_timestamp: 0, episode_description: episode.description }).eq("user_id", user.id).eq("mp3_file", episode.file);
+      } else {
+        // Progress doesn't exist, insert with timestamp as 0
+        await supabase.from("Episode_Progress").insert([
+          {
+            user_id: user.id,
+            episode_description: episode.description,
+            mp3_file: episode.file,
+            mp3_timestamp: 0,
+          },
+        ]);
+      }
+    } else {
+      console.log("User must be logged in to save episode progress.");
+    }
   };
 
-  const handlePause = () => {
-    setAudioSrc(null);
+  const handleTimestamp = async () => {
+    if (audioRef.current) {
+      const currentTime = audioRef.current.currentTime;
+      const user = JSON.parse(localStorage.getItem("user"));
+
+      if (user) {
+        // Update progress in the database with the current timestamp
+
+        await supabase.from("Episode_Progress").update({ mp3_timestamp: currentTime }).eq("user_id", user.id); // Update progress for the currently playing audio file
+      } else {
+        console.log("User must be logged in to save episode progress.");
+      }
+    }
   };
 
   async function handleAddToFavorites(episode) {
@@ -44,7 +88,7 @@ const Episode = ({ episodes, id, selectedSeason, showTitle, updated }) => {
           <h2 className="episode-title">{episode.title}</h2>
           <p className="episode-description">Description: {episode.description}</p>
           <p className="episode-number">Episode: {episode.episode}</p>
-          <button onClick={() => handlePlay(episode.file)} className="play-button">
+          <button onClick={() => handlePlay(episode)} className="play-button">
             ▷ Play
           </button>
           <button onClick={() => handleAddToFavorites(episode)} className="add-to-favorites-button">
@@ -54,7 +98,7 @@ const Episode = ({ episodes, id, selectedSeason, showTitle, updated }) => {
       ))}
       {audioSrc && (
         <div className="audio-player-container">
-          <audio controls autoPlay onEnded={handlePause} className="audio-player">
+          <audio ref={audioRef} controls autoPlay onPause={handleTimestamp} className="audio-player">
             <source src={audioSrc} type="audio/mpeg" />
             Your browser does not support the audio element.
           </audio>
